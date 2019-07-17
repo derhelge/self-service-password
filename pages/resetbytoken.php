@@ -161,6 +161,12 @@ if ( $result === "" ) {
     # Get user email for notification
     if ( $notify_on_change ) {
         $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
+        $fullname = ldap_get_values($ldap, $entry, $ldap_fullname_attribute);
+        if ($fullname["count"] > 0) {
+                $fullname = $fullname[0];
+                $fullname = preg_split("/,\s/", $fullname);
+                $fullname = $fullname[1] . " " . $fullname[0];
+        }
         if ( $mailValues["count"] > 0 ) {
             $mail = $mailValues[0];
         }
@@ -319,7 +325,7 @@ if ($pwd_show_policy_pos === 'below') {
 
     # Notify password change
     if ($mail and $notify_on_change) {
-        $data = array( "login" => $login, "mail" => $mail, "password" => $newpassword);
+	$data = array( "login" => $login, "mail" => $mail, "password" => $newpassword, "fullname" => $fullname);
         if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
             error_log("Error while sending change email to $mail (user $login)");
         }

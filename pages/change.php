@@ -112,6 +112,12 @@ if ( $result === "" ) {
     # Get user email for notification
     if ( $notify_on_change ) {
         $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
+	$fullname = ldap_get_values($ldap, $entry, $ldap_fullname_attribute);
+	if ($fullname["count"] > 0) {
+		$fullname = $fullname[0];
+		$fullname = preg_split("/,\s/", $fullname);
+		$fullname = $fullname[1] . " " . $fullname[0];
+	}
         if ( $mailValues["count"] > 0 ) {
             $mail = $mailValues[0];
         }
@@ -178,22 +184,22 @@ if ( $result === "" ) {
         $command = escapeshellcmd($posthook).' '.escapeshellarg($login).' '.escapeshellarg($newpassword).' '.escapeshellarg($oldpassword);
         //exec($command, $posthook_output, $posthook_return);
 //------ HW ------
-$mail = new PHPMailer;
-$mail->setFrom('apache@d-ws314.server.est1816.de', 'SSP Service');
-$mail->addAddress('helge.wiethoff@thga.de', 'syslog');
-$mail->Subject  = "Passwortaenderung fuer: ".escapeshellarg($login);
-$mail->Body     = date("Y-m-d H:i:s")."\n";
-$mail->Body     .= "\n";
-$mail->Body     .= "Username: ".$login."\n";
-$mail->Body     .= "\n";
-$mail->Body     .= "Das Passwort wurde ueber https://ssp.thga.de geaendert.\n";
-$mail->Body     .= "Weitere Informationen:\n";
-$mail->Body     .= "Aenderung durch: Eigene Aenderung\n";
-$mail->Body     .= "IP-Adresse: ".$_SERVER['REMOTE_ADDR']."\n";
-$mail->Body     .= "Browser-Agent: ".$_SERVER['HTTP_USER_AGENT']."\n";
-if(!$mail->send()) {
+$sysmail = new PHPMailer;
+$sysmail->setFrom('apache@d-ws314.server.est1816.de', 'SSP Service');
+$sysmail->addAddress('helge.wiethoff@thga.de', 'syslog');
+$sysmail->Subject  = "Passwortaenderung fuer: ".escapeshellarg($login);
+$sysmail->Body     = date("Y-m-d H:i:s")."\n";
+$sysmail->Body     .= "\n";
+$sysmail->Body     .= "Username: ".$login."\n";
+$sysmail->Body     .= "\n";
+$sysmail->Body     .= "Das Passwort wurde ueber https://ssp.thga.de geaendert.\n";
+$sysmail->Body     .= "Weitere Informationen:\n";
+$sysmail->Body     .= "Aenderung durch: Eigene Aenderung\n";
+$sysmail->Body     .= "IP-Adresse: ".$_SERVER['REMOTE_ADDR']."\n";
+$sysmail->Body     .= "Browser-Agent: ".$_SERVER['HTTP_USER_AGENT']."\n";
+if(!$sysmail->send()) {
   echo 'Message was not sent.';
-  echo 'Mailer error: ' . $mail->ErrorInfo;
+  echo 'Mailer error: ' . $sysmail->ErrorInfo;
 } 
 //------ HW ------
     }
@@ -321,7 +327,7 @@ if ($pwd_show_policy_pos === 'below') {
 
     # Notify password change
     if ($mail and $notify_on_change) {
-        $data = array( "login" => $login, "mail" => $mail, "password" => $newpassword);
+        $data = array( "login" => $login, "mail" => $mail, "password" => $newpassword, "fullname" => $fullname);
         if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
             error_log("Error while sending change email to $mail (user $login)");
         }
