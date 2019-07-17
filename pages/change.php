@@ -176,7 +176,26 @@ if ( $result === "" ) {
     $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword);
     if ( $result === "passwordchanged" && isset($posthook) ) {
         $command = escapeshellcmd($posthook).' '.escapeshellarg($login).' '.escapeshellarg($newpassword).' '.escapeshellarg($oldpassword);
-        exec($command, $posthook_output, $posthook_return);
+        //exec($command, $posthook_output, $posthook_return);
+//------ HW ------
+$mail = new PHPMailer;
+$mail->setFrom('apache@d-ws314.server.est1816.de', 'SSP Service');
+$mail->addAddress('helge.wiethoff@thga.de', 'syslog');
+$mail->Subject  = "Passwortaenderung fuer: ".escapeshellarg($login);
+$mail->Body     = date("Y-m-d H:i:s")."\n";
+$mail->Body     .= "\n";
+$mail->Body     .= "Username: ".$login."\n";
+$mail->Body     .= "\n";
+$mail->Body     .= "Das Passwort wurde ueber https://ssp.thga.de geaendert.\n";
+$mail->Body     .= "Weitere Informationen:\n";
+$mail->Body     .= "Aenderung durch: Eigene Aenderung\n";
+$mail->Body     .= "IP-Adresse: ".$_SERVER['REMOTE_ADDR']."\n";
+$mail->Body     .= "Browser-Agent: ".$_SERVER['HTTP_USER_AGENT']."\n";
+if(!$mail->send()) {
+  echo 'Message was not sent.';
+  echo 'Mailer error: ' . $mail->ErrorInfo;
+} 
+//------ HW ------
     }
 }
 

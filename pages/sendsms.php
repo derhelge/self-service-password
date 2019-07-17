@@ -330,6 +330,7 @@ if ( $result == "smscrypttokensrequired" ) {
 <div class="alert alert-info">
 <form action="#" method="post" class="form-horizontal">
     <div class="form-group">
+<!--
         <label class="col-sm-4 control-label"><?php echo $messages["userfullname"]; ?></label>
         <div class="col-sm-8">
             <p class="form-control-static"><?php echo $displayname[0]; ?></p>
@@ -341,10 +342,12 @@ if ( $result == "smscrypttokensrequired" ) {
             <p class="form-control-static"><?php echo $login; ?></p>
         </div>
     </div>
+//-->
+
     <div class="form-group">
         <label class="col-sm-4 control-label"><?php echo $messages["sms"]; ?></label>
         <div class="col-sm-8">
-            <p class="form-control-static"><?php if ($sms_partially_hide_number) echo (substr_replace($sms, '****', 4 , 4)); else echo $sms;?></p>
+            <p class="form-control-static"><?php if ($sms_partially_hide_number) echo (substr_replace($sms, '*****', 5 , 5)); else echo $sms;?></p>
         </div>
     </div>
     <input type="hidden" name="encrypted_sms_login" value="<?php echo htmlentities($encrypted_sms_login) ?>" />
