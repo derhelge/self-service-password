@@ -137,6 +137,12 @@ if ( $result === "" ) {
             error_log("Mail not found for user $login");
         }
     }
+   $fullname = ldap_get_values($ldap, $entry, $ldap_fullname_attribute);
+   if ($fullname["count"] > 0) {
+           $fullname = $fullname[0];
+           $fullname = preg_split("/,\s/", $fullname);
+           $fullname = $fullname[1] . " " . $fullname[0];
+   }
 
 }}}}}
 
@@ -194,8 +200,7 @@ if ( $result === "" ) {
     } else {
         error_log("Send reset URL $reset_url");
     }
-
-    $data = array( "login" => $login, "mail" => $mail, "url" => $reset_url ) ;
+    $data = array( "login" => $login, "mail" => $mail, "url" => $reset_url,"fullname" => $fullname ) ;
 
     # Send message
     if ( send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["resetsubject"], $messages["resetmessage"].$mail_signature, $data) ) {

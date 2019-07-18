@@ -195,22 +195,22 @@ if ($result === "") {
 error_log($command);
 //        exec($command, $posthook_output, $posthook_return);
 //------ HW ------
-$mail = new PHPMailer;
-$mail->setFrom('apache@d-ws314.server.est1816.de', 'SSP Service');
-$mail->addAddress('helge.wiethoff@thga.de', 'syslog');
-$mail->Subject  = "Passwortaenderung fuer: ".escapeshellarg($login);
-$mail->Body     = date("Y-m-d H:i:s")."\n";
-$mail->Body     .= "\n";
-$mail->Body     .= "Username: ".$login."\n";
-$mail->Body     .= "\n";
-$mail->Body     .= "Das Passwort wurde ueber https://ssp.thga.de geaendert.\n";
-$mail->Body     .= "Weitere Informationen:\n";
-$mail->Body     .= "Aenderung durch: E-Mail/SMS Token\n";
-$mail->Body     .= "IP-Adresse: ".$_SERVER['REMOTE_ADDR']."\n";
-$mail->Body     .= "Browser-Agent: ".$_SERVER['HTTP_USER_AGENT']."\n";
-if(!$mail->send()) {
+$sysmail = new PHPMailer;
+$sysmail->setFrom('apache@d-ws314.server.est1816.de', 'SSP Service');
+$sysmail->addAddress('helge.wiethoff@thga.de', 'syslog');
+$sysmail->Subject  = "Passwortaenderung fuer: ".escapeshellarg($login);
+$sysmail->Body     = date("Y-m-d H:i:s")."\n";
+$sysmail->Body     .= "\n";
+$sysmail->Body     .= "Username: ".$login."\n";
+$sysmail->Body     .= "\n";
+$sysmail->Body     .= "Das Passwort wurde ueber https://ssp.thga.de geaendert.\n";
+$sysmail->Body     .= "Weitere Informationen:\n";
+$sysmail->Body     .= "Aenderung durch: E-Mail/SMS Token\n";
+$sysmail->Body     .= "IP-Adresse: ".$_SERVER['REMOTE_ADDR']."\n";
+$sysmail->Body     .= "Browser-Agent: ".$_SERVER['HTTP_USER_AGENT']."\n";
+if(!$sysmail->send()) {
   echo 'Message was not sent.';
-  echo 'Mailer error: ' . $mail->ErrorInfo;
+  echo 'Mailer error: ' . $sysmail->ErrorInfo;
 }
 //------ HW ------
 
