@@ -35,6 +35,7 @@ require_once("lib/vendor/PHPMailer/PHPMailerAutoload.php");
 if ($use_pwnedpasswords) {
     require_once("lib/vendor/ron-maxweb/pwned-passwords/src/PwnedPasswords/PwnedPasswords.php");
 }
+require_once("lib/vendor/esendex/autoload.php");
 
 #==============================================================================
 # Error reporting
