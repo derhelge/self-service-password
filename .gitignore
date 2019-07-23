@@ -1,1 +1,2 @@
 conf/config.inc.local.php
+lib/smsapi-esendex.inc.php
