@@ -214,22 +214,28 @@ $mailer->LE            = $mail_newline;
 <?php } ?>
 
 <?php
-    if ( count($dependency_check_results) > 0 ) {
-        foreach($dependency_check_results as $result) {
-            ?>
-            <div class="result alert alert-<?php echo get_criticity($result) ?>">
-                <p><i class="fa fa-fw <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?></p>
-            </div>
-            <?php
-        }
-    } else {
-        include("pages/$action.php");
-    }
+	if ( count($dependency_check_results) > 0 ) {
+		foreach($dependency_check_results as $result) {
+			?>
+			<div class="result alert alert-<?php echo get_criticity($result) ?>">
+				<p><i class="fa fa-fw <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?></p>
+			</div>
+			<?php
+		}
+	} else {
+		include("pages/$action.php");
+	}
 ?>
 
 </div>
 </div>
 
+	<div class="footer">
+		<ul class="list-help">
+			<li class="list-help-item">Support: <a href="http://www.thga.de/rechenzentrum" target="_blank" rel="noopener">http://www.thga.de/rechenzentrum</a> | <a href="mailto:support@thga.de">support@thga.de</a> | <a href="tel:+492349688701">+49 234 968 8701</a></li>
+			<li class="list-help-item"><a href="https://www.thga.de/impressum" target="_blank" rel="noopener">Impressum</a></li>
+		</ul>
+	</div>
 </div>
 
 <script src="js/jquery-3.3.1.min.js"></script>

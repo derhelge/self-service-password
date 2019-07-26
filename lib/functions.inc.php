@@ -151,7 +151,9 @@ function get_criticity( $msg ) {
     if ( preg_match( "/(login|oldpassword|newpassword|confirmpassword|answer|question|password|mail|token|sshkey)required|badcaptcha|tokenattempts/" , $msg ) ) {
         return "warning";
     }
-
+    if (! isset($_REQUEST["login"]) and ! isset($_POST["confirmpassword"]) and ! isset($_POST["newpassword"]) and ! isset($_POST["oldpassword"])) {
+        return "instructions";
+    }
     return "success";
 }
 
@@ -163,6 +165,7 @@ function get_fa_class( $msg) {
     if ( $criticity === "danger" ) { return "fa-exclamation-circle"; }
     if ( $criticity === "warning" ) { return "fa-exclamation-triangle"; }
     if ( $criticity === "success" ) { return "fa-check-square"; }
+    # if ( $criticity === "instructions" ) { return "fa-info-circle"; }
 
 }
 
@@ -509,30 +512,20 @@ function send_mail($mailer, $mail, $mail_from, $mail_from_name, $subject, $body,
 
 }
 
-/* @function string check_username_validity(string $username, string $login_forbidden_chars)
+/* @function string check_username_validity(string $username, string $login_allowed_regex)
  * Check the user name against a regex or internal ctype_alnum() call to make sure the username doesn't contain
  * predetermined bad values, like an '*' can allow an attacker to 'test' to find valid usernames.
  * @param username the user name to test against
- * @param optional login_forbidden_chars invalid characters
+ * @param optional login_allowed_regex invalid characters
  * @return $result
  */
-function check_username_validity($username,$login_forbidden_chars) {
+function check_username_validity($username,$login_allowed_regex) {
     $result = "";
 
-    if (!$login_forbidden_chars) {
-        if (!ctype_alnum($username)) {
-            $result = "badcredentials";
-            error_log("Non alphanumeric characters in username $username");
-        }
+    if (!preg_match($login_allowed_regex, $username)) {
+        $result = "badcredentials";
+        error_log("Illegal characters in username. Regex: " . $login_allowed_regex);
     }
-    else {
-        preg_match_all("/[$login_forbidden_chars]/", $username, $forbidden_res);
-        if (count($forbidden_res[0])) {
-            $result = "badcredentials";
-            error_log("Illegal characters in username $username (list of forbidden characters: $login_forbidden_chars)");
-        }
-    }
-
     return $result;
 }
 

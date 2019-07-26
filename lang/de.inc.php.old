@@ -114,11 +114,11 @@ $messages['menutoken'] = "Zurücksetzen per E–Mail";
 $messages['menusms'] = "Zurücksetzen per SMS";
 $messages['nophpxml'] = "Sie benötigen die PHP XML Erweiterung um dieses Tool zu nutzen";
 $messages['tokenattempts'] = "Ungültiges Token, versuchen Sie es erneut";
-$messages['emptychangeform'] = "Hier können Sie das Passwort für den Benutzendenaccount des TH-Netzwerks ändern. Das <strong>bisherige Passwort</strong> muss Ihnen bekannt sein. Sollten Sie ihr momentanes Passwort vergessen haben, können Sie ein neues Passwort auch per <a href=\"?action=sendtoken\">E-Mail</a>- oder <a href=\"?action=sendsms\">SMS</a>-Bestätigung festlegen.";  //"Passwort ändern";
+$messages['emptychangeform'] = "Hier können Sie das Passwort fü den Benutzendenaccount des TH-Netzwerks ändern. Das <strong>bisherige Passwort</strong> muss Ihnen bekannt sein. Sollten Sie ihr momentanes Passwort vergessen haben, können Sie ein neues Passwort auch per <a href=\"?action=sendtoken\">E-Mail</a>- oder <a href=\"?action=sendsms\">SMS</a>-Bestätigung festlegen.";  //"Passwort ändern";
 $messages['emptysendtokenform'] = "Sie können sich eine E-Mail an das <strong>private Email-Konto</strong>, welches Sie in meine.thga.de hinterlegt haben, zusenden lassen, die einen Link zum Zurücksetzen des Passworts enthält.";
 $messages['emptyresetbyquestionsform'] = "Setzen Sie Ihr Passwort zurück";
 $messages['emptysetquestionsform'] = "Wählen Sie Ihre Sicherheitsfrage";
-$messages['emptysendsmsform'] = "Wenn Sie in ihrem Benutzendenaccount unter meine.thga.de eine <strong>Mobilfunknummer hinterlegt</strong> haben, können Sie sich eine SMS mit einem Token zusenden lassen.";
+$messages['emptysendsmsform'] = "Wenn Sie in ihrem Benutzendenaccount eine <strong>Mobilfunknummer hinterlegt</strong> haben, können Sie sich eine SMS mit einem Token zusenden lassen.";
 $messages['sameaslogin'] = "Ihr neues Passwort ist identisch mit Ihrem Benutzendennamen";
 $messages['policydifflogin'] = "Ihr neues Passwort darf nicht Ihr Benutzendenname sein.";
 $messages['changesshkeyhelp'] = "Geben Sie Ihr Passwort und den neuen SSH-Schlüssel ein.";
@@ -131,6 +131,12 @@ $messages['emptysshkeychangeform'] = "Ändern Sie Ihren SSH-Schlüssel";
 $messages['changesshkeymessage'] = "Hallo {login}, \n\nDer SSH-Schlüssel wurde geändert.\n\nWenn Sie diese Änderung nicht eingeleitet haben, wenden Sie sich bitte umgehend an Ihren Administrator.";
 $messages['menusshkey'] = "SSH Schlüssel";
 $messages['changesshkeysubject'] = "Ihr SSH-Schlüssel wurde geändert";
-$messages['pwned'] = "Ihr neues Passwort darf nicht bei einem früheren öffentlichen Passwortleck von einer anderen Website veröffentlicht worden sein.";
-$messages['policypwned'] = "Ihr neues Passwort darf nicht bei einem früheren öffentlichen Passwortleck von einer anderen Website veröffentlicht worden sein.";
-#
+$messages['pwned'] = "Your new password has already been published on leaks, you should consider changing it on any other service that it is in use";
+$messages['policypwned'] = "Your new password may not be published on any previous public password leak from any site";
+#� Ä
+#� Ö
+#� Ü
+#� ß
+#� ä
+#� ö
+#� ü

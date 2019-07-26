@@ -35,20 +35,20 @@ $userdn = "";
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
 $mail = "";
 
-if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = strval($_POST["confirmpassword"]); }
+if (!empty($_POST["confirmpassword"])) { $confirmpassword = strval($_POST["confirmpassword"]); }
  else { $result = "confirmpasswordrequired"; }
-if (isset($_POST["newpassword"]) and $_POST["newpassword"]) { $newpassword = strval($_POST["newpassword"]); }
+if (!empty($_POST["newpassword"])) { $newpassword = strval($_POST["newpassword"]); }
  else { $result = "newpasswordrequired"; }
-if (isset($_POST["oldpassword"]) and $_POST["oldpassword"]) { $oldpassword = strval($_POST["oldpassword"]); }
+if (!empty($_POST["oldpassword"])) { $oldpassword = strval($_POST["oldpassword"]); }
  else { $result = "oldpasswordrequired"; }
-if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = strval($_REQUEST["login"]); }
+if (!empty($_REQUEST["login"])) { $login = strval($_REQUEST["login"]); }
  else { $result = "loginrequired"; }
 if (! isset($_REQUEST["login"]) and ! isset($_POST["confirmpassword"]) and ! isset($_POST["newpassword"]) and ! isset($_POST["oldpassword"]))
  { $result = "emptychangeform"; }
 
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
-    $result = check_username_validity($login,$login_forbidden_chars);
+    $result = check_username_validity($login,$login_allowed_regex);
 }
 
 # Match new and confirm password

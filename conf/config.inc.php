@@ -269,7 +269,7 @@ $background_image = "images/unsplash-space.jpeg";
 # Invalid characters in login
 # Set at least "*()&|" to prevent LDAP injection
 # If empty, only alphanumeric characters are accepted
-$login_forbidden_chars = "*()&|";
+$login_allowed_regex = "*()&|";
 
 ## CAPTCHA
 # Use Google reCAPTCHA (http://www.google.com/recaptcha)
