@@ -158,19 +158,24 @@ if ( $result === "" ) {
         $shadow_options['update_shadowExpire'] = false;
     }
 
-    # Get user email for notification
+   # Get user email for notification
     if ( $notify_on_change ) {
-        $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
+        $privMailValues = ldap_get_values($ldap, $entry, $priv_mail_attribute);
+        $studMailValues = ldap_get_values($ldap, $entry, $stud_mail_attribute);
         $fullname = ldap_get_values($ldap, $entry, $ldap_fullname_attribute);
         if ($fullname["count"] > 0) {
                 $fullname = $fullname[0];
                 $fullname = preg_split("/,\s/", $fullname);
                 $fullname = $fullname[1] . " " . $fullname[0];
         }
-        if ( $mailValues["count"] > 0 ) {
-            $mail = $mailValues[0];
+        if ( $privMailValues["count"] > 0 ) {
+            $privMail = $privMailValues[0];
+        }
+        if ( $studMailValues["count"] > 0 ) {
+            $studMail = $studMailValues[0];
         }
     }
+
 
 }}}}
 
@@ -324,13 +329,20 @@ if ($pwd_show_policy_pos === 'below') {
 <?php } else {
 
     # Notify password change
-    if ($mail and $notify_on_change) {
-	$data = array( "login" => $login, "mail" => $mail, "password" => $newpassword, "fullname" => $fullname);
-        if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
-            error_log("Error while sending change email to $mail (user $login)");
+    if ($studMail and $notify_on_change) {
+        $data = array( "login" => $login, "mail" => $studMail, "password" => $newpassword, "fullname" => $fullname);
+        if ( !send_mail($mailer, $studMail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
+            error_log("Error while sending change email to $studMail (user $login)");
         }
     }
 
+    # Notify password change
+    if ($privMail and $notify_on_change) {
+        $data = array( "login" => $login, "mail" => $privMail, "password" => $newpassword, "fullname" => $fullname);
+        if ( !send_mail($mailer, $privMail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
+            error_log("Error while sending change email to $privMail (user $login)");
+        }
+    }
 }
 ?>
 

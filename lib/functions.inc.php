@@ -483,6 +483,8 @@ function send_mail($mailer, $mail, $mail_from, $mail_from_name, $subject, $body,
         return $result;
     }
 
+    $mailer->ClearAllRecipients();
+
     if (!$mail) {
         error_log("send_mail: no mail given, exiting...");
         return $result;
