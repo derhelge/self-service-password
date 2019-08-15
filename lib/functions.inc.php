@@ -494,8 +494,7 @@ function send_mail($mailer, $mail, $mail_from, $mail_from_name, $subject, $body,
         $mail = str_replace('{'.$key.'}', $value, $mail);
         $mail_from = str_replace('{'.$key.'}', $value, $mail_from);
         $subject = str_replace('{'.$key.'}', $value, $subject);
-        #$body = str_replace('{'.$key.'}', $value, $body);
-        $body = str_replace('{'.$key.'}', $value, file_get_contents('scripts/htmlmail.inc.html'));
+        $body = str_replace('{'.$key.'}', $value, $body);
     }
 
     $mailer->setFrom($mail_from, $mail_from_name);

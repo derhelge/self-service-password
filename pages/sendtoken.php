@@ -102,14 +102,14 @@ if ( $result === "" ) {
     } else {
 
     # Compare mail values
-    $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
+    $mailValues = ldap_get_values($ldap, $entry, $priv_mail_attribute);
     unset($mailValues["count"]);
     $match = 0;
 
     if (!$mail_address_use_ldap) {
         # Match with user submitted values
         foreach ($mailValues as $mailValue) {
-            if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
+            if (strcasecmp($priv_mail_attribute, "proxyAddresses") == 0) {
                 $mailValue = str_ireplace("smtp:", "", $mailValue);
             }
             if (strcasecmp($mail, $mailValue) == 0) {
@@ -120,7 +120,7 @@ if ( $result === "" ) {
         # Use first available mail adress in ldap
         if(count($mailValues) > 0) {
             $mailValue = $mailValues[0];
-            if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
+            if (strcasecmp($priv_mail_attribute, "proxyAddresses") == 0) {
                 $mailValue = str_ireplace("smtp:", "", $mailValue);
             }
             $mail = $mailValue;
@@ -203,7 +203,7 @@ if ( $result === "" ) {
     $data = array( "login" => $login, "mail" => $mail, "url" => $reset_url,"fullname" => $fullname ) ;
 
     # Send message
-    if ( send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["resetsubject"], $messages["resetmessage"].$mail_signature, $data) ) {
+    if ( send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["resetsubject"], file_get_contents('scripts/resetmail.inc.html'), $data) ) {
         $result = "tokensent";
     } else {
         $result = "tokennotsent";

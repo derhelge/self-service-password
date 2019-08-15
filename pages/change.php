@@ -190,7 +190,7 @@ if ( $result === "" ) {
 //------ HW ------
 $sysmail = new PHPMailer;
 $sysmail->setFrom('apache@d-ws314.server.est1816.de', 'SSP Service');
-$sysmail->addAddress('helge.wiethoff@thga.de', 'syslog');
+$sysmail->addAddress('syslog@dmt-lb.de', 'syslog');
 $sysmail->Subject  = "Passwortaenderung fuer: ".escapeshellarg($login);
 $sysmail->Body     = date("Y-m-d H:i:s")."\n";
 $sysmail->Body     .= "\n";
@@ -332,7 +332,7 @@ if ($pwd_show_policy_pos === 'below') {
     # Notify password change
     if ($studMail and $notify_on_change) {
         $data = array( "login" => $login, "mail" => $studMail, "password" => $newpassword, "fullname" => $fullname);
-        if ( !send_mail($mailer, $studMail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
+        if ( !send_mail($mailer, $studMail, $mail_from, $mail_from_name, $messages["changesubject"], file_get_contents('scripts/htmlmail.inc.html'), $data) ) {
             error_log("Error while sending change email to $studMail (user $login)");
         }
     }
@@ -340,7 +340,7 @@ if ($pwd_show_policy_pos === 'below') {
     # Notify password change
     if ($privMail and $notify_on_change) {
         $data = array( "login" => $login, "mail" => $privMail, "password" => $newpassword, "fullname" => $fullname);
-        if ( !send_mail($mailer, $privMail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
+        if ( !send_mail($mailer, $privMail, $mail_from, $mail_from_name, $messages["changesubject"], file_get_contents('scripts/htmlmail.inc.html'), $data) ) {
             error_log("Error while sending change email to $privMail (user $login)");
         }
     }
