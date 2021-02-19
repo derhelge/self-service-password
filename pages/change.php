@@ -188,6 +188,9 @@ if ( $result === "" ) {
         $command = escapeshellcmd($posthook).' '.escapeshellarg($login).' '.escapeshellarg($newpassword).' '.escapeshellarg($oldpassword);
         //exec($command, $posthook_output, $posthook_return);
 //------ HW ------
+$a = $_SERVER['REMOTE_ADDR'];
+strpos($a, ".") === false ? $loc = exec("geoiplookup6 $a") : $loc=exec("geoiplookup $a");
+
 $sysmail = new PHPMailer;
 $sysmail->setFrom('apache@d-ws314.server.est1816.de', 'SSP Service');
 $sysmail->addAddress('syslog@dmt-lb.de', 'syslog');
@@ -199,7 +202,7 @@ $sysmail->Body     .= "\n";
 $sysmail->Body     .= "Das Passwort wurde ueber https://ssp.thga.de geaendert.\n";
 $sysmail->Body     .= "Weitere Informationen:\n";
 $sysmail->Body     .= "Aenderung durch: Eigene Aenderung\n";
-$sysmail->Body     .= "IP-Adresse: ".$_SERVER['REMOTE_ADDR']."\n";
+$sysmail->Body     .= "IP-Adresse: ".$_SERVER['REMOTE_ADDR']." (". $loc . ")\n";
 $sysmail->Body     .= "Browser-Agent: ".$_SERVER['HTTP_USER_AGENT']."\n";
 if(!$sysmail->send()) {
   echo 'Message was not sent.';
